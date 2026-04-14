@@ -1,66 +1,104 @@
 {% extends "base.html" %}
 {% block title %}Standings - Home Base{% endblock %}
 
+{% block extra_css %}
+<style>
+    .standings-section .stat-card-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .standings-section .stat-card-header .cols {
+        display: flex;
+    }
+    .standings-section .stat-card-header .col-stat {
+        width: 40px;
+        text-align: center;
+    }
+    .standings-section .stat-card-header .col-stat.wide {
+        width: 48px;
+    }
+    .standings-table {
+        width: 100%;
+        background-color: #ffffff;
+        color: #333333;
+        font-size: 13px;
+    }
+    .standings-table tr {
+        border-bottom: 1px solid #e9ecef;
+    }
+    .standings-table tr:last-child {
+        border-bottom: none;
+    }
+    .standings-table td {
+        padding: 5px 8px;
+        vertical-align: middle;
+    }
+    .standings-table .stat-cell {
+        text-align: center;
+        width: 40px;
+        font-family: 'Chivo Mono', monospace;
+        font-size: 12px;
+    }
+    .standings-table .stat-cell.wide {
+        width: 48px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Standings</h2>
-<div class="row">
-    {% for record in standings %}
-    <div class="col-md-6">
-        <div class="stat-card">
-            <div class="stat-card-header">
-                {{ division_names.get(record.division.id, 'Division') }}
-            </div>
-                <table class="stat-card-table">
-                    <thead>
-                        <tr>
-                            <th style="text-align:left;padding-left:12px;"></th>
-                            <th>W</th>
-                            <th>L</th>
-                            <th>Pct</th>
-                            <th>GB</th>
-                            <th>L10</th>
-                            <th>Diff</th>
-                            <th>Home</th>
-                            <th>Away</th>
-                            <th>1Run</th>
-                            <th>XInn</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for team_rec in record.teamRecords %}
-                        {% set splits = team_rec.records.splitRecords %}
-                        <tr>
-                            <td style="text-align:left;padding-left:12px;">
-                                <div class="team-cell">
-                                    <a href="/team/{{ team_rec.team.id }}">
-                                        <img src="{{ team_logo_url(team_rec.team.id) }}" alt="{{ team_abbr_map.get(team_rec.team.id, '') }}">
-                                        {{ team_abbr_map.get(team_rec.team.id, team_rec.team.name) }}
-                                    </a>
-                                </div>
-                            </td>
-                            <td>{{ team_rec.wins }}</td>
-                            <td>{{ team_rec.losses }}</td>
-                            <td>{{ team_rec.winningPercentage }}</td>
-                            <td>{{ team_rec.gamesBack if team_rec.gamesBack != '-' else '-' }}</td>
-                            <td>
-                                {%- set l10 = splits | selectattr('type', 'equalto', 'lastTen') | first -%}
-                                {%- if l10 %}{{ l10.wins }}-{{ l10.losses }}{% else %}-{% endif -%}
-                            </td>
-                            <td>
-                                {%- set diff = team_rec.runDifferential -%}
-                                {{ '+' ~ diff if diff > 0 else diff }}
-                            </td>
-                            <td>{{ get_split_pct(splits, 'home') }}</td>
-                            <td>{{ get_split_pct(splits, 'away') }}</td>
-                            <td>{{ get_split_pct(splits, 'oneRun') }}</td>
-                            <td>{{ get_split_pct(splits, 'extraInning') }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
+<div class="standings-section">
+    <h2 class="mb-4">Standings</h2>
+    <div class="row">
+        {% for record in standings %}
+        <div class="col-md-6">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span>{{ division_names.get(record.division.id, 'Division') }}</span>
+                    <div class="cols">
+                        <span class="col-stat">W</span>
+                        <span class="col-stat">L</span>
+                        <span class="col-stat">Pct</span>
+                        <span class="col-stat">GB</span>
+                        <span class="col-stat wide">L10</span>
+                        <span class="col-stat wide">Diff</span>
+                        <span class="col-stat wide">Home</span>
+                        <span class="col-stat wide">Away</span>
+                        <span class="col-stat wide">1Run</span>
+                        <span class="col-stat wide">XInn</span>
+                    </div>
+                </div>
+                <table class="standings-table">
+                    {% for team_rec in record.teamRecords %}
+                    {% set splits = team_rec.records.splitRecords %}
+                    <tr>
+                        <td>
+                            <div class="team-cell">
+                                <img src="{{ team_logo_url(team_rec.team.id) }}" alt="{{ team_abbr_map.get(team_rec.team.id, '') }}">
+                                <a href="/team/{{ team_rec.team.id }}">{{ team_abbr_map.get(team_rec.team.id, team_rec.team.name) }}</a>
+                            </div>
+                        </td>
+                        <td class="stat-cell">{{ team_rec.wins }}</td>
+                        <td class="stat-cell">{{ team_rec.losses }}</td>
+                        <td class="stat-cell">{{ team_rec.winningPercentage }}</td>
+                        <td class="stat-cell">{{ team_rec.gamesBack if team_rec.gamesBack != '-' else '-' }}</td>
+                        <td class="stat-cell wide">
+                            {%- set l10 = splits | selectattr('type', 'equalto', 'lastTen') | first -%}
+                            {%- if l10 %}{{ l10.wins }}-{{ l10.losses }}{% else %}-{% endif -%}
+                        </td>
+                        <td class="stat-cell wide">
+                            {%- set diff = team_rec.runDifferential -%}
+                            {{ '+' ~ diff if diff > 0 else diff }}
+                        </td>
+                        <td class="stat-cell wide">{{ get_split_pct(splits, 'home') }}</td>
+                        <td class="stat-cell wide">{{ get_split_pct(splits, 'away') }}</td>
+                        <td class="stat-cell wide">{{ get_split_pct(splits, 'oneRun') }}</td>
+                        <td class="stat-cell wide">{{ get_split_pct(splits, 'extraInning') }}</td>
+                    </tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
