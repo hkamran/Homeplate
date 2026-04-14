@@ -1,7 +1,7 @@
 import logging
 
 from app import mlb_client
-from app.constants import DIVISION_NAMES, DIVISION_ORDER
+from app.constants import DIVISION_ORDER
 
 logger = logging.getLogger(__name__)
 
