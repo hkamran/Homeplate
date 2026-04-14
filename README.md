@@ -1,6 +1,6 @@
 # Home Base - MLB Team and Player Stats
 
-A Python web application that displays MLB news, standings, team rosters, and player statistics using data from the MLB StatsAPI and RSS feeds.
+A Python web application that displays MLB news, standings, team rosters, and player statistics. Data is sourced live from the MLB StatsAPI and MLB RSS feeds.
 
 ## Tech Stack
 
@@ -9,16 +9,28 @@ A Python web application that displays MLB news, standings, team rosters, and pl
 - **Data:** MLB StatsAPI, MLB RSS feeds
 - **Package Manager:** UV
 - **Containerization:** Docker Compose
+- **Linting/Formatting:** Ruff (with pre-commit hooks)
+- **Caching:** 2-layer — in-memory TTLCache + disk cache (1 hour TTL)
 
-## Quick Start
+## Getting Started
 
-### With Docker Compose (recommended)
+The primary way to run this project is via Docker Compose.
 
 ```bash
 docker compose up --build
 ```
 
 Open http://localhost:5000
+
+That's it. The app will build, install dependencies, and start with hot-reload enabled.
+
+### Scripts
+
+| Script | Description |
+|--------|-------------|
+| `./scripts/bootstrap.sh` | Build, start, verify, and run tests |
+| `./scripts/run_dev.sh` | Start dev server and tail logs |
+| `./scripts/run_tests.sh` | Run linter, formatter check, and tests |
 
 ### Without Docker
 
@@ -32,12 +44,14 @@ uv run flask --app run.py run --debug
 ## Running Tests
 
 ```bash
-# In Docker
-docker compose exec web uv run pytest -v
+# Via script (lint + format + tests)
+./scripts/run_tests.sh
 
-# Locally
-uv run pytest -v
+# Or directly
+docker compose exec web uv run pytest -v
 ```
+
+94 tests covering API clients, all services, and calculations.
 
 ## Pages
 
@@ -53,25 +67,34 @@ uv run pytest -v
 
 ```
 app/
-├── __init__.py          # Flask app factory
-├── config.py            # Configuration + MLB team data
+├── __init__.py              # Flask app factory
+├── config.py                # App configuration
+├── constants.py             # MLB teams, divisions, leader categories
 ├── clients/
-│   ├── mlb_client.py    # StatsAPI client with TTL caching
-│   └── mlb_news_client.py  # RSS feed client
+│   ├── mlb_client.py        # StatsAPI client (HTTP, caching, thread-safe)
+│   ├── mlb_news_client.py   # RSS feed client (XML parsing, caching)
+│   └── disk_cache.py        # File-based JSON cache with TTL
 ├── services/
-│   └── calculations.py  # SO% and BB% calculations
-├── routes/              # Flask blueprints (one per page)
-├── templates/           # Jinja2 templates
+│   ├── calculations.py      # SO% and BB% calculations
+│   ├── standings.py         # Standings ordering and split pct extraction
+│   ├── news.py              # MLB and team news fetching
+│   ├── leaders.py           # Stat leader filtering by category/group
+│   ├── team.py              # Team info and roster splitting
+│   └── player.py            # Player stats, game log, calculated stats
+├── routes/                  # Flask blueprints (thin HTTP handlers)
+├── templates/               # Jinja2 templates
 └── static/
-    ├── css/style.css    # Global styles
-    └── img/             # Logo assets
-tests/
-├── test_mlb_client.py
-└── test_mlb_news_client.py
+    ├── css/style.css        # Global styles
+    └── img/                 # Logo assets
+scripts/
+├── bootstrap.sh             # Full setup: build, start, verify, test
+├── run_dev.sh               # Start dev server with log tailing
+└── run_tests.sh             # Lint + format + test
+tests/                       # 94 tests (clients, services, calculations)
 ```
 
 ## Data Sources
 
 - **StatsAPI:** https://statsapi.mlb.com — teams, standings, rosters, player stats, leaders
 - **RSS Feeds:** https://www.mlb.com/feeds/news/rss.xml — MLB and team-specific news
-- **Graphics:** Team logos, player headshots, ballpark images from MLB CDN
+- **Graphics:** Team logos, player headshots from MLB CDN
