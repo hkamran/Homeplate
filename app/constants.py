@@ -1,3 +1,13 @@
+import os
+
+# MLB CDN URL patterns for team logos and player headshots.
+# Configurable via environment variables; defaults to MLB CDN.
+TEAM_LOGO_URL = os.environ.get("TEAM_LOGO_URL", "https://www.mlbstatic.com/team-logos/{team_id}.svg")
+PLAYER_HEADSHOT_URL = os.environ.get(
+    "PLAYER_HEADSHOT_URL",
+    "https://content.mlb.com/images/headshots/current/60x60/{player_id}@2x.png",
+)
+
 # All 30 MLB teams with IDs, abbreviations, full names, and URL slugs.
 # Used for the navbar dropdown, team abbreviation lookups, and news feed URLs.
 MLB_TEAMS = [

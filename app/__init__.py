@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from app.clients.mlb_client import MLBClient
 from app.clients.mlb_news_client import MLBNewsClient
 from app.config import config_map
-from app.constants import MLB_TEAMS
+from app.constants import MLB_TEAMS, PLAYER_HEADSHOT_URL, TEAM_LOGO_URL
 
 # Module-level references — initialized in create_app()
 mlb_client: MLBClient = None  # type: ignore[assignment]
@@ -27,8 +27,8 @@ def create_app(config_name="development"):
         return dict(
             mlb_teams=MLB_TEAMS,
             team_abbr_map=team_abbr_map,
-            team_logo_url=lambda tid: f"https://www.mlbstatic.com/team-logos/{tid}.svg",
-            player_headshot_url=lambda pid: f"https://content.mlb.com/images/headshots/current/60x60/{pid}@2x.png",
+            team_logo_url=lambda tid: TEAM_LOGO_URL.format(team_id=tid),
+            player_headshot_url=lambda pid: PLAYER_HEADSHOT_URL.format(player_id=pid),
         )
 
     @app.template_filter("ordinal")
