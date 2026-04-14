@@ -1,151 +1,70 @@
 {% extends "base.html" %}
 {% block title %}Leaderboards - Home Base{% endblock %}
 
-{% block extra_css %}
-<style>
-    .leaderboard-card {
-        background-color: #1e4060;
-        border-radius: 6px;
-        overflow: hidden;
-        margin-bottom: 1rem;
-    }
-
-    .leaderboard-header {
-        background-color: #2a5a8c;
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    .leaderboard-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .leaderboard-list li {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 6px 16px;
-        font-size: 13px;
-        border-bottom: 1px solid #2a5a8c;
-    }
-
-    .leaderboard-list li:last-child {
-        border-bottom: none;
-    }
-
-    .leaderboard-list .rank {
-        color: #8fabc4;
-        width: 24px;
-        font-family: 'Chivo Mono', monospace;
-        font-size: 12px;
-    }
-
-    .leaderboard-list .player-info {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex: 1;
-    }
-
-    .leaderboard-list .player-info img {
-        width: 20px;
-        height: 20px;
-    }
-
-    .leaderboard-list .player-info a {
-        color: #ffffff;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .leaderboard-list .player-info a:hover {
-        color: #a0c4e8;
-    }
-
-    .leaderboard-list .team-name {
-        color: #8fabc4;
-        font-size: 11px;
-        margin-left: 4px;
-    }
-
-    .leaderboard-list .stat-value {
-        font-family: 'Chivo Mono', monospace;
-        font-weight: 700;
-        font-size: 13px;
-        min-width: 50px;
-        text-align: right;
-    }
-
-    .section-title {
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #2a5a8c;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 <h2 class="mb-4">Leaderboards</h2>
 
 <!-- Hitting Leaders -->
-<div class="section-title">Hitting</div>
+<h3 class="mb-3" style="border-bottom:2px solid #2a5a8c;padding-bottom:0.5rem;">Hitting</h3>
 <div class="row g-3 mb-4">
     {% for category in hitting_leaders %}
     <div class="col-md-6 col-lg-3">
-        <div class="leaderboard-card">
-            <div class="leaderboard-header">
-                {{ display_names.get(category.leaderCategory, category.leaderCategory) }}
-            </div>
-            <ul class="leaderboard-list">
-                {% for leader in category.leaders %}
-                <li>
-                    <span class="rank">{{ leader.rank }}</span>
-                    <div class="player-info">
-                        <img src="{{ player_headshot_url(leader.person.id) }}" alt="{{ leader.person.fullName }}" style="border-radius:50%;" onerror="this.style.display='none'">
-                        <div>
-                            <a href="/player/{{ leader.person.id }}">{{ leader.person.fullName }}</a>
-                            <span class="team-name">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
-                        </div>
-                    </div>
-                    <span class="stat-value">{{ leader.value }}</span>
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;" colspan="3">{{ display_names.get(category.leaderCategory, category.leaderCategory) }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for leader in category.leaders %}
+                    <tr>
+                        <td style="width:24px;color:#999;">{{ leader.rank }}</td>
+                        <td class="player-name" style="text-align:left;">
+                            <a href="/player/{{ leader.person.id }}">
+                                <img src="{{ player_headshot_url(leader.person.id) }}" alt="{{ leader.person.fullName }}" onerror="this.style.display='none'">
+                                {{ leader.person.fullName }}
+                                <span style="color:#999;font-size:11px;margin-left:4px;">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
+                            </a>
+                        </td>
+                        <td style="text-align:right;font-weight:700;">{{ leader.value }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% endfor %}
 </div>
 
 <!-- Pitching Leaders -->
-<div class="section-title">Pitching</div>
+<h3 class="mb-3" style="border-bottom:2px solid #2a5a8c;padding-bottom:0.5rem;">Pitching</h3>
 <div class="row g-3 mb-4">
     {% for category in pitching_leaders %}
     <div class="col-md-6 col-lg-3">
-        <div class="leaderboard-card">
-            <div class="leaderboard-header">
-                {{ display_names.get(category.leaderCategory, category.leaderCategory) }}
-            </div>
-            <ul class="leaderboard-list">
-                {% for leader in category.leaders %}
-                <li>
-                    <span class="rank">{{ leader.rank }}</span>
-                    <div class="player-info">
-                        <img src="{{ player_headshot_url(leader.person.id) }}" alt="{{ leader.person.fullName }}" style="border-radius:50%;" onerror="this.style.display='none'">
-                        <div>
-                            <a href="/player/{{ leader.person.id }}">{{ leader.person.fullName }}</a>
-                            <span class="team-name">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
-                        </div>
-                    </div>
-                    <span class="stat-value">{{ leader.value }}</span>
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;" colspan="3">{{ display_names.get(category.leaderCategory, category.leaderCategory) }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for leader in category.leaders %}
+                    <tr>
+                        <td style="width:24px;color:#999;">{{ leader.rank }}</td>
+                        <td class="player-name" style="text-align:left;">
+                            <a href="/player/{{ leader.person.id }}">
+                                <img src="{{ player_headshot_url(leader.person.id) }}" alt="{{ leader.person.fullName }}" onerror="this.style.display='none'">
+                                {{ leader.person.fullName }}
+                                <span style="color:#999;font-size:11px;margin-left:4px;">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
+                            </a>
+                        </td>
+                        <td style="text-align:right;font-weight:700;">{{ leader.value }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% endfor %}
