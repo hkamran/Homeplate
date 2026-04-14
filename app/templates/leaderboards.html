@@ -9,8 +9,8 @@
 <div class="row g-3 mb-4">
     {% for category in hitting_leaders %}
     <div class="col-md-6 col-lg-3">
-        <div class="data-table-wrapper">
-            <table class="data-table">
+        <div class="stat-card">
+            <table class="stat-card-table">
                 <thead>
                     <tr>
                         <th style="text-align:left;" colspan="3">{{ display_names.get(category.leaderCategory, category.leaderCategory) }}</th>
@@ -42,8 +42,8 @@
 <div class="row g-3 mb-4">
     {% for category in pitching_leaders %}
     <div class="col-md-6 col-lg-3">
-        <div class="data-table-wrapper">
-            <table class="data-table">
+        <div class="stat-card">
+            <table class="stat-card-table">
                 <thead>
                     <tr>
                         <th style="text-align:left;" colspan="3">{{ display_names.get(category.leaderCategory, category.leaderCategory) }}</th>

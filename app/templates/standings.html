@@ -6,12 +6,11 @@
 <div class="row">
     {% for record in standings %}
     <div class="col-md-6">
-        <div class="division-card">
-            <div class="division-header">
+        <div class="stat-card">
+            <div class="stat-card-header">
                 {{ division_names.get(record.division.id, 'Division') }}
             </div>
-            <div class="data-table-wrapper" style="border-top-left-radius: 0;border-top-right-radius: 0;">
-                <table class="data-table">
+                <table class="stat-card-table">
                     <thead>
                         <tr>
                             <th style="text-align:left;padding-left:12px;"></th>

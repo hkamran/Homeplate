@@ -3,18 +3,18 @@
 
 {% block extra_css %}
 <style>
-    .standings-section .division-header {
+    .standings-section .stat-card-header {
         display: flex;
         justify-content: space-between;
     }
-    .standings-section .division-header .cols {
+    .standings-section .stat-card-header .cols {
         display: flex;
     }
-    .standings-section .division-header .col-stat {
+    .standings-section .stat-card-header .col-stat {
         width: 40px;
         text-align: center;
     }
-    .standings-section .division-header .col-stat.wide {
+    .standings-section .stat-card-header .col-stat.wide {
         width: 48px;
     }
     .standings-table {
@@ -52,8 +52,8 @@
     <div class="row">
         {% for record in standings %}
         <div class="col-md-6">
-            <div class="division-card">
-                <div class="division-header">
+            <div class="stat-card">
+                <div class="stat-card-header">
                     <span>{{ division_names.get(record.division.id, 'Division') }}</span>
                     <div class="cols">
                         <span class="col-stat">W</span>
@@ -109,7 +109,8 @@
                     {% endif %}
                     <div class="news-body">
                         <div class="news-title">{{ article.title }}</div>
-                        <div class="news-meta">{{ article.author }}<br>{{ article.published }}</div>
+                        <div class="news-meta">{{ article.author }}</div>
+                        <div class="news-date">{{ article.published }}</div>
                     </div>
                 </a>
             </div>
@@ -122,7 +123,7 @@
 <div class="mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">League Leaders</h2>
-        <a href="/leaderboards" style="color:#8fabc4;font-size:13px;text-decoration:none;">View All &rarr;</a>
+        <a href="/leaderboards" style="color:white;font-weight: 800;font-size:13px;text-decoration:none;">View All &rarr;</a>
     </div>
     <div class="row g-3">
         {% for category in leaders %}

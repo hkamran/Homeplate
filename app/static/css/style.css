@@ -88,15 +88,16 @@ h1, h2, h3 {
    Shared Components
    ========================================== */
 
-/* Division / standings cards */
-.division-card {
+/* Generic stat card: header + table */
+.stat-card {
     background-color: #1e4060;
     border-radius: 6px;
     overflow: hidden;
+    overflow-x: auto;
     margin-bottom: 1rem;
 }
 
-.division-header {
+.stat-card-header {
     background-color: #2a5a8c;
     color: #ffffff;
     font-weight: 600;
@@ -104,21 +105,13 @@ h1, h2, h3 {
     padding: 6px 12px;
 }
 
-/* Shared data table base */
-.data-table-wrapper {
-    background-color: #1e4060;
-    border-radius: 6px;
-    overflow: hidden;
-    overflow-x: auto;
-}
-
-.data-table {
+.stat-card-table {
     width: 100%;
     font-size: 12px;
     border-collapse: collapse;
 }
 
-.data-table thead th {
+.stat-card-table thead th {
     background-color: #2a5a8c;
     color: #ffffff;
     padding: 6px 8px;
@@ -128,16 +121,16 @@ h1, h2, h3 {
     white-space: nowrap;
 }
 
-.data-table tbody tr {
+.stat-card-table tbody tr {
     background-color: #ffffff;
     border-bottom: 1px solid #e9ecef;
 }
 
-.data-table tbody tr:last-child {
+.stat-card-table tbody tr:last-child {
     border-bottom: none;
 }
 
-.data-table td {
+.stat-card-table td {
     padding: 5px 8px;
     color: #333;
     text-align: center;
@@ -147,11 +140,11 @@ h1, h2, h3 {
     font-size: 12px;
 }
 
-.data-table tbody tr.projected-row {
+.stat-card-table tbody tr.projected-row {
     background-color: #e8f4e8;
 }
 
-.data-table tbody tr.career-row {
+.stat-card-table tbody tr.career-row {
     background-color: #f0f0f0;
     font-weight: 600;
 }
@@ -206,7 +199,7 @@ h1, h2, h3 {
 
 /* News cards */
 .news-card {
-    background-color: #1e4060;
+    background: white;
     border-radius: 6px;
     overflow: hidden;
     height: 100%;
@@ -235,14 +228,19 @@ h1, h2, h3 {
 .news-card .news-title {
     font-weight: 600;
     font-size: 13px;
-    color: #ffffff;
+    color: #1d385e;
     margin-bottom: 8px;
     line-height: 1.4;
 }
 
 .news-card .news-meta {
     font-size: 11px;
-    color: #8fabc4;
+    color: black;
+}
+
+.news-card .news-date {
+    font-size: 11px;
+    color: #5691ca;
 }
 
 /* Leader cards */
@@ -301,84 +299,6 @@ h1, h2, h3 {
     color: #ffffff;
 }
 
-/* Leaderboard cards (full list) */
-.leaderboard-card {
-    background-color: #1e4060;
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-
-.leaderboard-header {
-    background-color: #2a5a8c;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 8px 16px;
-}
-
-.leaderboard-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.leaderboard-list li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 16px;
-    font-size: 13px;
-    border-bottom: 1px solid #2a5a8c;
-}
-
-.leaderboard-list li:last-child {
-    border-bottom: none;
-}
-
-.leaderboard-list .rank {
-    color: #8fabc4;
-    width: 24px;
-    font-family: 'Chivo Mono', monospace;
-    font-size: 12px;
-}
-
-.leaderboard-list .player-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-}
-
-.leaderboard-list .player-info img {
-    width: 20px;
-    height: 20px;
-}
-
-.leaderboard-list .player-info a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.leaderboard-list .player-info a:hover {
-    color: #a0c4e8;
-}
-
-.leaderboard-list .team-name {
-    color: #8fabc4;
-    font-size: 11px;
-    margin-left: 4px;
-}
-
-.leaderboard-list .stat-value {
-    font-family: 'Chivo Mono', monospace;
-    font-weight: 700;
-    font-size: 13px;
-    min-width: 50px;
-    text-align: right;
-}
-
 .section-title {
     font-size: 18px;
     font-weight: 700;
@@ -410,7 +330,7 @@ h1, h2, h3 {
 
 .player-info .player-meta {
     font-size: 13px;
-    color: #8fabc4;
+    color: #457fba;
 }
 
 .player-bio {
@@ -426,7 +346,7 @@ h1, h2, h3 {
 
 .player-bio .bio-label {
     font-size: 11px;
-    color: #8fabc4;
+    color: #457fba;
     margin-bottom: 2px;
 }
 
@@ -455,7 +375,7 @@ h1, h2, h3 {
 
 .team-header .team-meta {
     font-size: 13px;
-    color: #8fabc4;
+    color: #457fba;
 }
 
 .team-header .team-record {
