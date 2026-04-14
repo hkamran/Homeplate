@@ -248,8 +248,9 @@ h1, h2, h3 {
 /* Leader cards */
 .leader-card {
     background-color: #1e4060;
-    border-radius: 6px;
-    padding: 12px 16px;
+    border-radius: 0;
+    border-top: 2px solid #ffffff;
+    padding: 10px 16px;
     height: 100%;
 }
 
