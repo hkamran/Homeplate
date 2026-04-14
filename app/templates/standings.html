@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Standings - Home Base{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Standings</h2>
+<div class="row">
+    {% for record in standings %}
+    <div class="col-md-6">
+        <div class="division-card">
+            <div class="division-header">
+                {{ division_names.get(record.division.id, 'Division') }}
+            </div>
+            <div class="data-table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left;padding-left:12px;"></th>
+                            <th>W</th>
+                            <th>L</th>
+                            <th>Pct</th>
+                            <th>GB</th>
+                            <th>L10</th>
+                            <th>Diff</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>1Run</th>
+                            <th>XInn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team_rec in record.teamRecords %}
+                        {% set splits = team_rec.records.splitRecords %}
+                        <tr>
+                            <td style="text-align:left;padding-left:12px;">
+                                <div class="team-cell">
+                                    <a href="/team/{{ team_rec.team.id }}">
+                                        <img src="{{ team_logo_url(team_rec.team.id) }}" alt="{{ team_abbr_map.get(team_rec.team.id, '') }}">
+                                        {{ team_abbr_map.get(team_rec.team.id, team_rec.team.name) }}
+                                    </a>
+                                </div>
+                            </td>
+                            <td>{{ team_rec.wins }}</td>
+                            <td>{{ team_rec.losses }}</td>
+                            <td>{{ team_rec.winningPercentage }}</td>
+                            <td>{{ team_rec.gamesBack if team_rec.gamesBack != '-' else '-' }}</td>
+                            <td>
+                                {%- set l10 = splits | selectattr('type', 'equalto', 'lastTen') | first -%}
+                                {%- if l10 %}{{ l10.wins }}-{{ l10.losses }}{% else %}-{% endif -%}
+                            </td>
+                            <td>
+                                {%- set diff = team_rec.runDifferential -%}
+                                {{ '+' ~ diff if diff > 0 else diff }}
+                            </td>
+                            <td>{{ get_split_pct(splits, 'home') }}</td>
+                            <td>{{ get_split_pct(splits, 'away') }}</td>
+                            <td>{{ get_split_pct(splits, 'oneRun') }}</td>
+                            <td>{{ get_split_pct(splits, 'extraInning') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

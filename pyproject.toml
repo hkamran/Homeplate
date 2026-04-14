@@ -1,0 +1,16 @@
+[project]
+name = "homebase"
+version = "0.1.0"
+description = "MLB Team and Player Stats Application"
+requires-python = ">=3.12"
+dependencies = [
+    "flask",
+    "requests",
+    "cachetools",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

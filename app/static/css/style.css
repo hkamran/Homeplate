@@ -1,0 +1,467 @@
+/* ==========================================
+   Home Base - Global Styles
+   ========================================== */
+
+/* Base */
+html, body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background-color: #1a3a5c;
+    color: #ffffff;
+    margin: 0;
+}
+
+.font-mono {
+    font-family: 'Chivo Mono', monospace;
+}
+
+.container-main {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #152d4a;
+    padding: 0.75rem 0;
+}
+
+.navbar-brand img {
+    height: 28px;
+}
+
+.nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.nav-link:hover {
+    color: #a0c4e8 !important;
+}
+
+/* Teams dropdown */
+.teams-dropdown {
+    width: 560px;
+    background-color: #ffffff;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.teams-dropdown .team-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    text-decoration: none;
+    color: #333;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+.teams-dropdown .team-item:hover {
+    background-color: #e9ecef;
+}
+
+.teams-dropdown .team-item img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+/* Utility */
+.text-light-muted {
+    color: #8fabc4;
+}
+
+/* ==========================================
+   Shared Components
+   ========================================== */
+
+/* Division / standings cards */
+.division-card {
+    background-color: #1e4060;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.division-header {
+    background-color: #2a5a8c;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 6px 12px;
+}
+
+/* Shared data table base */
+.data-table-wrapper {
+    background-color: #1e4060;
+    border-radius: 6px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    font-size: 12px;
+    border-collapse: collapse;
+}
+
+.data-table thead th {
+    background-color: #2a5a8c;
+    color: #ffffff;
+    padding: 6px 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.data-table tbody tr {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.data-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.data-table td {
+    padding: 5px 8px;
+    color: #333;
+    text-align: center;
+    vertical-align: middle;
+    font-family: 'Chivo Mono', monospace;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.data-table tbody tr.projected-row {
+    background-color: #e8f4e8;
+}
+
+.data-table tbody tr.career-row {
+    background-color: #f0f0f0;
+    font-weight: 600;
+}
+
+/* Team cell in tables */
+.team-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.team-cell img {
+    width: 20px;
+    height: 20px;
+}
+
+.team-cell a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.team-cell a:hover {
+    color: #2a5a8c;
+}
+
+/* Player name cell in tables */
+.player-name a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+}
+
+.player-name a:hover {
+    color: #2a5a8c;
+}
+
+.player-name img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+/* News cards */
+.news-card {
+    background-color: #1e4060;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.15s;
+}
+
+.news-card:hover {
+    transform: translateY(-2px);
+}
+
+.news-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.news-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.news-card .news-body {
+    padding: 12px;
+}
+
+.news-card .news-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #ffffff;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.news-card .news-meta {
+    font-size: 11px;
+    color: #8fabc4;
+}
+
+/* Leader cards */
+.leader-card {
+    background-color: #1e4060;
+    border-radius: 6px;
+    padding: 12px 16px;
+    height: 100%;
+}
+
+.leader-card .leader-category {
+    font-weight: 600;
+    font-size: 13px;
+    color: #8fabc4;
+    margin-bottom: 8px;
+}
+
+.leader-card .leader-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.leader-card .leader-player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.leader-card .leader-player img {
+    width: 20px;
+    height: 20px;
+}
+
+.leader-card .leader-player a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.leader-card .leader-player a:hover {
+    color: #a0c4e8;
+}
+
+.leader-card .leader-player .team-abbr {
+    color: #8fabc4;
+    font-size: 12px;
+}
+
+.leader-card .leader-value {
+    font-family: 'Chivo Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+/* Leaderboard cards (full list) */
+.leaderboard-card {
+    background-color: #1e4060;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.leaderboard-header {
+    background-color: #2a5a8c;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+.leaderboard-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.leaderboard-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid #2a5a8c;
+}
+
+.leaderboard-list li:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-list .rank {
+    color: #8fabc4;
+    width: 24px;
+    font-family: 'Chivo Mono', monospace;
+    font-size: 12px;
+}
+
+.leaderboard-list .player-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.leaderboard-list .player-info img {
+    width: 20px;
+    height: 20px;
+}
+
+.leaderboard-list .player-info a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.leaderboard-list .player-info a:hover {
+    color: #a0c4e8;
+}
+
+.leaderboard-list .team-name {
+    color: #8fabc4;
+    font-size: 11px;
+    margin-left: 4px;
+}
+
+.leaderboard-list .stat-value {
+    font-family: 'Chivo Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    min-width: 50px;
+    text-align: right;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #2a5a8c;
+}
+
+/* Player header */
+.player-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+.player-headshot {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #2a5a8c;
+}
+
+.player-info .player-name {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.player-info .player-meta {
+    font-size: 13px;
+    color: #8fabc4;
+}
+
+.player-bio {
+    display: flex;
+    gap: 24px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.player-bio .bio-item {
+    text-align: center;
+}
+
+.player-bio .bio-label {
+    font-size: 11px;
+    color: #8fabc4;
+    margin-bottom: 2px;
+}
+
+.player-bio .bio-value {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Team header */
+.team-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 2rem;
+}
+
+.team-header img {
+    width: 60px;
+    height: 60px;
+}
+
+.team-header .team-name {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.team-header .team-meta {
+    font-size: 13px;
+    color: #8fabc4;
+}
+
+.team-header .team-record {
+    background-color: #2a5a8c;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+}

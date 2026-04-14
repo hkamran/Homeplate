@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block title %}{{ team.name }} - Home Base{% endblock %}
+
+{% block content %}
+<!-- Team Header -->
+<div class="team-header">
+    <img src="{{ team_logo_url(team.id) }}" alt="{{ team.name }}">
+    <div>
+        <div class="team-name">
+            {{ team.name }}
+            {% if team_record %}
+            <span class="team-record">{{ team_record.wins }}-{{ team_record.losses }}</span>
+            {% endif %}
+        </div>
+        <div class="team-meta">
+            {% if team.division %}{{ team.division.name }}{% endif %}
+            {% if team.league %} &middot; {{ team.league.name }}{% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Hitters -->
+<div class="mb-4">
+    <h3>Hitters</h3>
+    <div class="data-table-wrapper">
+        <table class="data-table" style="min-width:900px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;">Pos</th>
+                    <th style="text-align:left;">#</th>
+                    <th style="text-align:left;">Batter</th>
+                    <th>G</th>
+                    <th>PA</th>
+                    <th>H</th>
+                    <th>R</th>
+                    <th>2B</th>
+                    <th>3B</th>
+                    <th>HR</th>
+                    <th>SO</th>
+                    <th>BB</th>
+                    <th>AVG</th>
+                    <th>OBP</th>
+                    <th>OPS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in hitters %}
+                <tr>
+                    <td style="text-align:left;">{{ h.position }}</td>
+                    <td style="text-align:left;">{{ h.number }}</td>
+                    <td class="player-name" style="text-align:left;">
+                        <a href="/player/{{ h.id }}">
+                            <img src="{{ player_headshot_url(h.id) }}" alt="{{ h.name }}" onerror="this.style.display='none'">
+                            {{ h.name }}
+                        </a>
+                    </td>
+                    <td>{{ h.stats.get('gamesPlayed', '-') }}</td>
+                    <td>{{ h.stats.get('plateAppearances', '-') }}</td>
+                    <td>{{ h.stats.get('hits', '-') }}</td>
+                    <td>{{ h.stats.get('runs', '-') }}</td>
+                    <td>{{ h.stats.get('doubles', '-') }}</td>
+                    <td>{{ h.stats.get('triples', '-') }}</td>
+                    <td>{{ h.stats.get('homeRuns', '-') }}</td>
+                    <td>{{ h.stats.get('strikeOuts', '-') }}</td>
+                    <td>{{ h.stats.get('baseOnBalls', '-') }}</td>
+                    <td>{{ h.stats.get('avg', '-') }}</td>
+                    <td>{{ h.stats.get('obp', '-') }}</td>
+                    <td>{{ h.stats.get('ops', '-') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pitchers -->
+<div class="mb-4">
+    <h3>Pitchers</h3>
+    <div class="data-table-wrapper">
+        <table class="data-table" style="min-width:800px;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;">Pos</th>
+                    <th style="text-align:left;">#</th>
+                    <th style="text-align:left;">Pitcher</th>
+                    <th>G</th>
+                    <th>IP</th>
+                    <th>ERA</th>
+                    <th>SO</th>
+                    <th>BB</th>
+                    <th>WHIP</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>SV</th>
+                    <th>SO/9</th>
+                    <th>BB/9</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in pitchers %}
+                <tr>
+                    <td style="text-align:left;">{{ p.position }}</td>
+                    <td style="text-align:left;">{{ p.number }}</td>
+                    <td class="player-name" style="text-align:left;">
+                        <a href="/player/{{ p.id }}">
+                            <img src="{{ player_headshot_url(p.id) }}" alt="{{ p.name }}" onerror="this.style.display='none'">
+                            {{ p.name }}
+                        </a>
+                    </td>
+                    <td>{{ p.stats.get('gamesPlayed', '-') }}</td>
+                    <td>{{ p.stats.get('inningsPitched', '-') }}</td>
+                    <td>{{ p.stats.get('era', '-') }}</td>
+                    <td>{{ p.stats.get('strikeOuts', '-') }}</td>
+                    <td>{{ p.stats.get('baseOnBalls', '-') }}</td>
+                    <td>{{ p.stats.get('whip', '-') }}</td>
+                    <td>{{ p.stats.get('wins', '-') }}</td>
+                    <td>{{ p.stats.get('losses', '-') }}</td>
+                    <td>{{ p.stats.get('saves', '-') }}</td>
+                    <td>{{ p.stats.get('strikeoutsPer9Inn', '-') }}</td>
+                    <td>{{ p.stats.get('walksPer9Inn', '-') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Team News -->
+{% if news %}
+<div class="mb-4">
+    <h3>{{ team.name }} News</h3>
+    <div class="row g-3">
+        {% for article in news %}
+        <div class="col-md-3">
+            <div class="news-card">
+                <a href="{{ article.link }}" target="_blank">
+                    {% if article.image_url %}
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                    {% else %}
+                    <div style="height:160px;background:#2a5a8c;"></div>
+                    {% endif %}
+                    <div class="news-body">
+                        <div class="news-title">{{ article.title }}</div>
+                        <div class="news-meta">{{ article.author }}<br>{{ article.published }}</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Team Leaders -->
+{% if leaders %}
+<div class="mb-4">
+    <h3>Team Leaders</h3>
+    <div class="row g-3">
+        {% for category in leaders %}
+        <div class="col-md-3">
+            <div class="leader-card">
+                <div class="leader-category">{{ leader_display_names.get(category.leaderCategory, category.leaderCategory) }}</div>
+                {% if category.leaders %}
+                {% set leader = category.leaders[0] %}
+                <div class="leader-entry">
+                    <div class="leader-player">
+                        <img src="{{ team_logo_url(leader.team.id) }}" alt="{{ leader.team.name }}">
+                        <div>
+                            <a href="/player/{{ leader.person.id }}">{{ leader.person.fullName }}</a>
+                            <span class="team-abbr">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
+                        </div>
+                    </div>
+                    <span class="leader-value">{{ leader.value }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

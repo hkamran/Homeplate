@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Home Base - MLB Stats{% endblock %}
+
+{% block extra_css %}
+<style>
+    .standings-section .division-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .standings-section .division-header .cols {
+        display: flex;
+    }
+    .standings-section .division-header .col-stat {
+        width: 40px;
+        text-align: center;
+    }
+    .standings-section .division-header .col-stat.wide {
+        width: 48px;
+    }
+    .standings-table {
+        width: 100%;
+        background-color: #ffffff;
+        color: #333333;
+        font-size: 13px;
+    }
+    .standings-table tr {
+        border-bottom: 1px solid #e9ecef;
+    }
+    .standings-table tr:last-child {
+        border-bottom: none;
+    }
+    .standings-table td {
+        padding: 5px 8px;
+        vertical-align: middle;
+    }
+    .standings-table .stat-cell {
+        text-align: center;
+        width: 40px;
+        font-family: 'Chivo Mono', monospace;
+        font-size: 12px;
+    }
+    .standings-table .stat-cell.wide {
+        width: 48px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Standings -->
+<div class="standings-section">
+    <h2 class="mb-3">Standings</h2>
+    <div class="row">
+        {% for record in standings %}
+        <div class="col-md-6">
+            <div class="division-card">
+                <div class="division-header">
+                    <span>{{ division_names.get(record.division.id, 'Division') }}</span>
+                    <div class="cols">
+                        <span class="col-stat">W</span>
+                        <span class="col-stat">L</span>
+                        <span class="col-stat">Pct</span>
+                        <span class="col-stat">GB</span>
+                        <span class="col-stat wide">L10</span>
+                        <span class="col-stat wide">Diff</span>
+                    </div>
+                </div>
+                <table class="standings-table">
+                    {% for team_rec in record.teamRecords %}
+                    <tr>
+                        <td>
+                            <div class="team-cell">
+                                <img src="{{ team_logo_url(team_rec.team.id) }}" alt="{{ team_abbr_map.get(team_rec.team.id, '') }}">
+                                <a href="/team/{{ team_rec.team.id }}">{{ team_abbr_map.get(team_rec.team.id, team_rec.team.name) }}</a>
+                            </div>
+                        </td>
+                        <td class="stat-cell">{{ team_rec.wins }}</td>
+                        <td class="stat-cell">{{ team_rec.losses }}</td>
+                        <td class="stat-cell">{{ team_rec.winningPercentage }}</td>
+                        <td class="stat-cell">{{ team_rec.gamesBack if team_rec.gamesBack != '-' else '-' }}</td>
+                        <td class="stat-cell wide">
+                            {%- set l10 = team_rec.records.splitRecords | selectattr('type', 'equalto', 'lastTen') | first -%}
+                            {%- if l10 %}{{ l10.wins }}-{{ l10.losses }}{% else %}-{% endif -%}
+                        </td>
+                        <td class="stat-cell wide">
+                            {%- set diff = team_rec.runDifferential -%}
+                            {{ '+' ~ diff if diff > 0 else diff }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- MLB News -->
+<div class="mb-4">
+    <h2 class="mb-3">MLB News</h2>
+    <div class="row g-3">
+        {% for article in news %}
+        <div class="col-md-3">
+            <div class="news-card">
+                <a href="{{ article.link }}" target="_blank">
+                    {% if article.image_url %}
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                    {% else %}
+                    <div style="height:160px;background:#2a5a8c;"></div>
+                    {% endif %}
+                    <div class="news-body">
+                        <div class="news-title">{{ article.title }}</div>
+                        <div class="news-meta">{{ article.author }}<br>{{ article.published }}</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- League Leaders -->
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">League Leaders</h2>
+        <a href="/leaderboards" style="color:#8fabc4;font-size:13px;text-decoration:none;">View All &rarr;</a>
+    </div>
+    <div class="row g-3">
+        {% for category in leaders %}
+        <div class="col-md-3">
+            <div class="leader-card">
+                <div class="leader-category">{{ leader_display_names.get(category.leaderCategory, category.leaderCategory) }}</div>
+                {% if category.leaders %}
+                {% set leader = category.leaders[0] %}
+                <div class="leader-entry">
+                    <div class="leader-player">
+                        <img src="{{ team_logo_url(leader.team.id) }}" alt="{{ leader.team.name }}">
+                        <div>
+                            <a href="/player/{{ leader.person.id }}">{{ leader.person.fullName }}</a>
+                            <span class="team-abbr">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
+                        </div>
+                    </div>
+                    <span class="leader-value">{{ leader.value }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
