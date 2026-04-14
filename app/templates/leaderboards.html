@@ -107,7 +107,7 @@
                 <li>
                     <span class="rank">{{ leader.rank }}</span>
                     <div class="player-info">
-                        <img src="{{ team_logo_url(leader.team.id) }}" alt="{{ leader.team.name }}">
+                        <img src="{{ player_headshot_url(leader.person.id) }}" alt="{{ leader.person.fullName }}" style="border-radius:50%;" onerror="this.style.display='none'">
                         <div>
                             <a href="/player/{{ leader.person.id }}">{{ leader.person.fullName }}</a>
                             <span class="team-name">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
@@ -136,7 +136,7 @@
                 <li>
                     <span class="rank">{{ leader.rank }}</span>
                     <div class="player-info">
-                        <img src="{{ team_logo_url(leader.team.id) }}" alt="{{ leader.team.name }}">
+                        <img src="{{ player_headshot_url(leader.person.id) }}" alt="{{ leader.person.fullName }}" style="border-radius:50%;" onerror="this.style.display='none'">
                         <div>
                             <a href="/player/{{ leader.person.id }}">{{ leader.person.fullName }}</a>
                             <span class="team-name">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
