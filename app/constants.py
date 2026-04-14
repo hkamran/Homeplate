@@ -44,9 +44,10 @@ MLB_TEAMS = [
 ]
 
 # Stable MLB division IDs — these haven't changed since 1998.
-# Hardcoded to control display order (AL left column, NL right column) and avoid
-# an extra API call. The standings API returns divisions in an unpredictable order.
-DIVISION_ORDER = [201, 202, 200, 204, 205, 203]
+# Hardcoded to control display order and avoid an extra API call.
+# Interleaved so AL and NL sit side-by-side in a 2-column grid:
+# Row 1: AL East | NL East, Row 2: AL Central | NL Central, Row 3: AL West | NL West
+DIVISION_ORDER = [201, 204, 202, 205, 200, 203]
 DIVISION_NAMES = {
     201: "AL East",
     202: "AL Central",

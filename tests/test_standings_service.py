@@ -35,10 +35,10 @@ class TestGetOrderedStandings:
             mock_client.get_standings.return_value = records
             result = get_ordered_standings()
 
-        # DIVISION_ORDER: 201, 202, 200, 204, 205, 203
+        # DIVISION_ORDER: 201, 204, 202, 205, 200, 203 (interleaved AL/NL)
         assert result[0]["name"] == "AL East"
-        assert result[1]["name"] == "AL West"
-        assert result[2]["name"] == "NL East"
+        assert result[1]["name"] == "NL East"
+        assert result[2]["name"] == "AL West"
 
     def test_skips_missing_divisions(self):
         records = [{"division": {"id": 201}, "name": "AL East"}]
