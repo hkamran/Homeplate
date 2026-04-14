@@ -9,11 +9,14 @@
         <div class="team-name">
             {{ team.name }}
             {% if team_record %}
-            <span class="team-record">{{ team_record.wins }}-{{ team_record.losses }}</span>
+            <span class="team-record">{{ team_record.wins }}-{{ team_record.losses }} ({{ team_record.winningPercentage }})</span>
+            {% if team_record.gamesBack and team_record.gamesBack != '-' %}
+            <span class="team-record">{{ team_record.gamesBack }} GB</span>
+            {% endif %}
             {% endif %}
         </div>
         <div class="team-meta">
-            {% if team.division %}{{ team.division.name }}{% endif %}
+            {% if team_record and team_record.divisionRank %}{{ team_record.divisionRank | ordinal }} in {% endif %}{% if team.division %}{{ team.division.name }}{% endif %}
             {% if team.league %} &middot; {{ team.league.name }}{% endif %}
         </div>
     </div>
@@ -23,21 +26,23 @@
 <div class="mb-4">
     <h3>Hitters</h3>
     <div class="data-table-wrapper">
-        <table class="data-table" style="min-width:900px;">
+        <table class="data-table" style="min-width:1000px;">
             <thead>
                 <tr>
                     <th style="text-align:left;">Pos</th>
                     <th style="text-align:left;">#</th>
                     <th style="text-align:left;">Batter</th>
-                    <th>G</th>
+                    <th>Age</th>
+                    <th>B</th>
+                    <th>T</th>
                     <th>PA</th>
                     <th>H</th>
-                    <th>R</th>
                     <th>2B</th>
                     <th>3B</th>
                     <th>HR</th>
-                    <th>SO</th>
-                    <th>BB</th>
+                    <th>SB</th>
+                    <th>SO%</th>
+                    <th>BB%</th>
                     <th>AVG</th>
                     <th>OBP</th>
                     <th>OPS</th>
@@ -54,13 +59,15 @@
                             {{ h.name }}
                         </a>
                     </td>
-                    <td>{{ h.stats.get('gamesPlayed', '-') }}</td>
+                    <td>{{ h.age or '-' }}</td>
+                    <td>{{ h.bat_side or '-' }}</td>
+                    <td>{{ h.throw_hand or '-' }}</td>
                     <td>{{ h.stats.get('plateAppearances', '-') }}</td>
                     <td>{{ h.stats.get('hits', '-') }}</td>
-                    <td>{{ h.stats.get('runs', '-') }}</td>
                     <td>{{ h.stats.get('doubles', '-') }}</td>
                     <td>{{ h.stats.get('triples', '-') }}</td>
                     <td>{{ h.stats.get('homeRuns', '-') }}</td>
+                    <td>{{ h.stats.get('stolenBases', '-') }}</td>
                     <td>{{ h.stats.get('strikeOuts', '-') }}</td>
                     <td>{{ h.stats.get('baseOnBalls', '-') }}</td>
                     <td>{{ h.stats.get('avg', '-') }}</td>
@@ -77,23 +84,22 @@
 <div class="mb-4">
     <h3>Pitchers</h3>
     <div class="data-table-wrapper">
-        <table class="data-table" style="min-width:800px;">
+        <table class="data-table" style="min-width:900px;">
             <thead>
                 <tr>
                     <th style="text-align:left;">Pos</th>
                     <th style="text-align:left;">#</th>
-                    <th style="text-align:left;">Pitcher</th>
+                    <th style="text-align:left;">Batter</th>
+                    <th>Age</th>
                     <th>G</th>
                     <th>IP</th>
+                    <th>BF</th>
                     <th>ERA</th>
                     <th>SO</th>
                     <th>BB</th>
-                    <th>WHIP</th>
-                    <th>W</th>
-                    <th>L</th>
-                    <th>SV</th>
-                    <th>SO/9</th>
-                    <th>BB/9</th>
+                    <th>SO%</th>
+                    <th>BB%</th>
+                    <th>OPS</th>
                 </tr>
             </thead>
             <tbody>
@@ -107,17 +113,16 @@
                             {{ p.name }}
                         </a>
                     </td>
+                    <td>{{ p.age or '-' }}</td>
                     <td>{{ p.stats.get('gamesPlayed', '-') }}</td>
                     <td>{{ p.stats.get('inningsPitched', '-') }}</td>
+                    <td>{{ p.stats.get('battersFaced', '-') }}</td>
                     <td>{{ p.stats.get('era', '-') }}</td>
                     <td>{{ p.stats.get('strikeOuts', '-') }}</td>
                     <td>{{ p.stats.get('baseOnBalls', '-') }}</td>
-                    <td>{{ p.stats.get('whip', '-') }}</td>
-                    <td>{{ p.stats.get('wins', '-') }}</td>
-                    <td>{{ p.stats.get('losses', '-') }}</td>
-                    <td>{{ p.stats.get('saves', '-') }}</td>
-                    <td>{{ p.stats.get('strikeoutsPer9Inn', '-') }}</td>
-                    <td>{{ p.stats.get('walksPer9Inn', '-') }}</td>
+                    <td>{{ p.stats.get('strikeoutPercentage', '-') }}</td>
+                    <td>{{ p.stats.get('walkPercentage', '-') }}</td>
+                    <td>{{ p.stats.get('ops', '-') }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

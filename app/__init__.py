@@ -31,6 +31,12 @@ def create_app(config_name="development"):
             player_headshot_url=lambda pid: f"https://content.mlb.com/images/headshots/current/60x60/{pid}@2x.png",
         )
 
+    @app.template_filter("ordinal")
+    def ordinal_filter(n):
+        n = int(n)
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(n if n < 20 else n % 10, "th")
+        return f"{n}{suffix}"
+
     from app.routes.landing import landing_bp
     from app.routes.leaderboards import leaderboards_bp
     from app.routes.player import player_bp

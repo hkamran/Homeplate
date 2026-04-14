@@ -44,6 +44,9 @@ def get_roster_split(team_id):
             "name": person.get("fullName", ""),
             "number": player.get("jerseyNumber", ""),
             "position": pos_abbr,
+            "age": person.get("currentAge", ""),
+            "bat_side": person.get("batSide", {}).get("code", ""),
+            "throw_hand": person.get("pitchHand", {}).get("code", ""),
             "stats": stats,
         }
 

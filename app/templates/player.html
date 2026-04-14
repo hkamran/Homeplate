@@ -274,7 +274,7 @@
                 <tr>
                     <td style="text-align:left;">{{ g.date }}</td>
                     <td style="text-align:left;">{{ g.opponent.name if g.opponent else '-' }}</td>
-                    <td style="text-align:left;">{{ g.summary | default('-') }}</td>
+                    <td style="text-align:left;">{{ st.summary | default('-') }}</td>
                     <td>{{ st.inningsPitched | default('-') }}</td>
                     <td>{{ st.era | default('-') }}</td>
                     <td>{{ st.strikeOuts | default('-') }}</td>
@@ -310,7 +310,7 @@
                 <tr>
                     <td style="text-align:left;">{{ g.date }}</td>
                     <td style="text-align:left;">{{ g.opponent.name if g.opponent else '-' }}</td>
-                    <td style="text-align:left;">{{ g.summary | default('-') }}</td>
+                    <td style="text-align:left;">{{ st.summary | default('-') }}</td>
                     <td>{{ st.atBats | default('-') }}</td>
                     <td>{{ st.hits | default('-') }}</td>
                     <td>{{ st.runs | default('-') }}</td>
