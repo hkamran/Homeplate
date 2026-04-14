@@ -13,8 +13,7 @@ DEFAULT_TIMEOUT = 10  # seconds
 class MLBClient:
     BASE_URL = "https://statsapi.mlb.com"
 
-    def __init__(self, cache_ttl=300, cache_maxsize=128, timeout=DEFAULT_TIMEOUT,
-                 disk_cache=None):
+    def __init__(self, cache_ttl=300, cache_maxsize=128, timeout=DEFAULT_TIMEOUT, disk_cache=None):
         self._session = requests.Session()
         self._cache = TTLCache(maxsize=cache_maxsize, ttl=cache_ttl)
         self._lock = threading.Lock()
@@ -42,9 +41,7 @@ class MLBClient:
             return disk_data
 
         # Layer 3: API call
-        response = self._session.get(
-            f"{self.BASE_URL}{endpoint}", params=params, timeout=self._timeout
-        )
+        response = self._session.get(f"{self.BASE_URL}{endpoint}", params=params, timeout=self._timeout)
         response.raise_for_status()
         data = response.json()
 

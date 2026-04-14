@@ -31,7 +31,7 @@ class DiskCache:
         """Retrieve a cached value. Returns None if missing or expired."""
         path = self._key_to_path(key)
         try:
-            with open(path, "r") as f:
+            with open(path) as f:
                 entry = json.load(f)
             if entry["expires_at"] > time.time():
                 return entry["data"]

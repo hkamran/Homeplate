@@ -195,9 +195,7 @@ class TestGetPlayerStats:
                         {
                             "type": {"displayName": "yearByYear"},
                             "group": {"displayName": "hitting"},
-                            "splits": [
-                                {"season": "2024", "stat": {"avg": ".252", "homeRuns": 9}}
-                            ],
+                            "splits": [{"season": "2024", "stat": {"avg": ".252", "homeRuns": 9}}],
                         }
                     ],
                 }
@@ -271,9 +269,7 @@ class TestGetStatLeaders:
         assert result[0]["leaders"][0]["value"] == "25"
 
     def test_calls_with_params(self, client):
-        with patch.object(
-            client._session, "get", return_value=_mock_response({"leagueLeaders": []})
-        ) as mock_get:
+        with patch.object(client._session, "get", return_value=_mock_response({"leagueLeaders": []})) as mock_get:
             client.get_stat_leaders(["homeRuns", "battingAverage"], season=2026, limit=5)
 
         args, kwargs = mock_get.call_args
@@ -292,9 +288,7 @@ class TestCaching:
         assert mock_get.call_count == 1
 
     def test_different_params_not_cached(self, client):
-        with patch.object(
-            client._session, "get", return_value=_mock_response({"records": []})
-        ) as mock_get:
+        with patch.object(client._session, "get", return_value=_mock_response({"records": []})) as mock_get:
             client.get_standings("103")
             client.get_standings("104")
 
@@ -306,6 +300,8 @@ class TestErrorHandling:
         mock_resp = MagicMock()
         mock_resp.raise_for_status.side_effect = Exception("404 Not Found")
 
-        with patch.object(client._session, "get", return_value=mock_resp):
-            with pytest.raises(Exception, match="404 Not Found"):
-                client.get_teams()
+        with (
+            patch.object(client._session, "get", return_value=mock_resp),
+            pytest.raises(Exception, match="404 Not Found"),
+        ):
+            client.get_teams()

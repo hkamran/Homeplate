@@ -14,8 +14,7 @@ class MLBNewsClient:
     MLB_NEWS_URL = "https://www.mlb.com/feeds/news/rss.xml"
     TEAM_NEWS_URL = "https://www.mlb.com/{team_slug}/feeds/news/rss.xml"
 
-    def __init__(self, cache_ttl=300, cache_maxsize=64, timeout=DEFAULT_TIMEOUT,
-                 disk_cache=None):
+    def __init__(self, cache_ttl=300, cache_maxsize=64, timeout=DEFAULT_TIMEOUT, disk_cache=None):
         self._session = requests.Session()
         self._cache = TTLCache(maxsize=cache_maxsize, ttl=cache_ttl)
         self._lock = threading.Lock()
@@ -70,14 +69,16 @@ class MLBNewsClient:
                     author = child.text or ""
                     break
 
-            parsed.append({
-                "title": self._get_text(item, "title"),
-                "description": self._get_text(item, "description"),
-                "link": self._get_text(item, "link"),
-                "published": self._get_text(item, "pubDate"),
-                "author": author,
-                "image_url": image_url,
-            })
+            parsed.append(
+                {
+                    "title": self._get_text(item, "title"),
+                    "description": self._get_text(item, "description"),
+                    "link": self._get_text(item, "link"),
+                    "published": self._get_text(item, "pubDate"),
+                    "author": author,
+                    "image_url": image_url,
+                }
+            )
         return parsed
 
     def _get_text(self, parent, tag):

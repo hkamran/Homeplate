@@ -1,7 +1,5 @@
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from app.clients.mlb_news_client import MLBNewsClient
 from tests.conftest import NullDiskCache
 

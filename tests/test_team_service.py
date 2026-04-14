@@ -23,9 +23,7 @@ class TestGetRosterSplit:
     def _make_roster_entry(self, name, pos_type, pos_abbr, jersey="0", stats=None):
         person = {"id": 1, "fullName": name, "stats": []}
         if stats:
-            person["stats"] = [
-                {"type": {"displayName": "season"}, "splits": [{"stat": stats}]}
-            ]
+            person["stats"] = [{"type": {"displayName": "season"}, "splits": [{"stat": stats}]}]
         return {
             "person": person,
             "position": {"type": pos_type, "abbreviation": pos_abbr},
@@ -50,7 +48,9 @@ class TestGetRosterSplit:
     def test_extracts_season_stats(self):
         roster = [
             self._make_roster_entry(
-                "Slugger", "Infielder", "1B",
+                "Slugger",
+                "Infielder",
+                "1B",
                 stats={"homeRuns": 25, "avg": ".300"},
             ),
         ]

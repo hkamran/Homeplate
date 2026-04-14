@@ -26,8 +26,16 @@ class TestIsPitcher:
 class TestExtractStatsByType:
     def test_finds_matching_type(self):
         stats = [
-            {"type": {"displayName": "yearByYear"}, "group": {"displayName": "hitting"}, "splits": [{"season": "2024"}]},
-            {"type": {"displayName": "career"}, "group": {"displayName": "hitting"}, "splits": [{"season": "career"}]},
+            {
+                "type": {"displayName": "yearByYear"},
+                "group": {"displayName": "hitting"},
+                "splits": [{"season": "2024"}],
+            },
+            {
+                "type": {"displayName": "career"},
+                "group": {"displayName": "hitting"},
+                "splits": [{"season": "career"}],
+            },
         ]
         result = _extract_stats_by_type(stats, "yearByYear", "hitting")
         assert len(result) == 1
@@ -158,9 +166,7 @@ class TestGetGameLog:
             "stats": [
                 {
                     "type": {"displayName": "gameLog"},
-                    "splits": [
-                        {"date": f"2026-04-{i:02d}"} for i in range(1, 11)
-                    ],
+                    "splits": [{"date": f"2026-04-{i:02d}"} for i in range(1, 11)],
                 }
             ]
         }
