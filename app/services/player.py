@@ -1,9 +1,22 @@
 import logging
 
 from app import mlb_client
-from app.services.calculations import calc_bb_pct, calc_so_pct
 
 logger = logging.getLogger(__name__)
+
+
+def calc_so_pct(strikeouts, plate_appearances):
+    """Calculate strikeout percentage: SO / PA."""
+    if plate_appearances is None or plate_appearances == 0:
+        return None
+    return round(strikeouts / plate_appearances * 100, 1)
+
+
+def calc_bb_pct(walks, plate_appearances):
+    """Calculate walk percentage: BB / PA."""
+    if plate_appearances is None or plate_appearances == 0:
+        return None
+    return round(walks / plate_appearances * 100, 1)
 
 
 def _extract_stats_by_type(stats_list, type_name, group_name=None):
