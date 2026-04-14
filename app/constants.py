@@ -67,3 +67,33 @@ LEADER_STAT_GROUPS = {
     "strikeouts": "pitching",
     "earnedRunAverage": "pitching",
 }
+
+# Leaderboard page categories — broader set than landing page
+HITTING_CATEGORIES = ["homeRuns", "battingAverage", "onBasePlusSlugging", "runsBattedIn"]
+PITCHING_CATEGORIES = ["earnedRunAverage", "strikeOuts", "whip", "wins"]
+
+HITTING_STAT_GROUPS = {
+    "homeRuns": "hitting",
+    "battingAverage": "hitting",
+    "onBasePlusSlugging": "hitting",
+    "runsBattedIn": "hitting",
+}
+
+PITCHING_STAT_GROUPS = {
+    "earnedRunAverage": "pitching",
+    "strikeouts": "pitching",
+    "whip": "pitching",
+    "wins": "pitching",
+}
+
+# Display names for leaderboard page (superset of landing display names)
+LEADERBOARD_DISPLAY_NAMES = {
+    "homeRuns": "Home Runs",
+    "battingAverage": "Batting Average",
+    "onBasePlusSlugging": "OPS",
+    "runsBattedIn": "RBI",
+    "earnedRunAverage": "ERA",
+    "strikeouts": "Strikeouts",
+    "whip": "WHIP",
+    "wins": "Wins",
+}

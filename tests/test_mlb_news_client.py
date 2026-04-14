@@ -3,6 +3,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from app.clients.mlb_news_client import MLBNewsClient
+from tests.conftest import NullDiskCache
 
 SAMPLE_RSS = """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
@@ -49,7 +50,7 @@ def _mock_response(content):
 
 class TestGetMLBNews:
     def test_returns_parsed_entries(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)):
             result = client.get_mlb_news()
 
@@ -59,14 +60,14 @@ class TestGetMLBNews:
         assert result[1]["title"] == "Story Two"
 
     def test_limit_parameter(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)):
             result = client.get_mlb_news(limit=1)
 
         assert len(result) == 1
 
     def test_calls_correct_url(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)) as mock_get:
             client.get_mlb_news()
 
@@ -75,7 +76,7 @@ class TestGetMLBNews:
 
 class TestGetTeamNews:
     def test_returns_team_news(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)):
             result = client.get_team_news("bluejays")
 
@@ -83,14 +84,14 @@ class TestGetTeamNews:
         assert result[0]["title"] == "Story One"
 
     def test_calls_team_url(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)) as mock_get:
             client.get_team_news("yankees")
 
         mock_get.assert_called_once_with("https://www.mlb.com/yankees/feeds/news/rss.xml", timeout=10)
 
     def test_limit_parameter(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)):
             result = client.get_team_news("bluejays", limit=1)
 
@@ -99,7 +100,7 @@ class TestGetTeamNews:
 
 class TestEntryParsing:
     def test_parses_all_fields(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)):
             result = client.get_mlb_news()
 
@@ -112,14 +113,14 @@ class TestEntryParsing:
         assert article["image_url"] == "https://img.mlbstatic.com/image1.jpg"
 
     def test_handles_missing_image(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS_NO_IMAGE)):
             result = client.get_mlb_news()
 
         assert result[0]["image_url"] is None
 
     def test_handles_missing_author(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS_NO_IMAGE)):
             result = client.get_mlb_news()
 
@@ -128,7 +129,7 @@ class TestEntryParsing:
 
 class TestCaching:
     def test_caches_feed_results(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)) as mock_get:
             client.get_mlb_news()
             client.get_mlb_news()
@@ -136,7 +137,7 @@ class TestCaching:
         assert mock_get.call_count == 1
 
     def test_different_urls_not_cached(self):
-        client = MLBNewsClient()
+        client = MLBNewsClient(disk_cache=NullDiskCache())
         with patch.object(client._session, "get", return_value=_mock_response(SAMPLE_RSS)) as mock_get:
             client.get_team_news("bluejays")
             client.get_team_news("yankees")

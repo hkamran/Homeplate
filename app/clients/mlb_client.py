@@ -5,17 +5,21 @@ import threading
 import requests
 from cachetools import TTLCache
 
+from app.clients.disk_cache import DiskCache
+
 DEFAULT_TIMEOUT = 10  # seconds
 
 
 class MLBClient:
     BASE_URL = "https://statsapi.mlb.com"
 
-    def __init__(self, cache_ttl=300, cache_maxsize=128, timeout=DEFAULT_TIMEOUT):
+    def __init__(self, cache_ttl=300, cache_maxsize=128, timeout=DEFAULT_TIMEOUT,
+                 disk_cache=None):
         self._session = requests.Session()
         self._cache = TTLCache(maxsize=cache_maxsize, ttl=cache_ttl)
         self._lock = threading.Lock()
         self._timeout = timeout
+        self._disk_cache = disk_cache or DiskCache()
 
     def _make_cache_key(self, endpoint, params):
         """Build a deterministic cache key from endpoint and params."""
@@ -25,10 +29,19 @@ class MLBClient:
     def _get(self, endpoint, params=None):
         cache_key = self._make_cache_key(endpoint, params)
 
+        # Layer 1: in-memory cache
         with self._lock:
             if cache_key in self._cache:
                 return self._cache[cache_key]
 
+        # Layer 2: disk cache
+        disk_data = self._disk_cache.get(cache_key)
+        if disk_data is not None:
+            with self._lock:
+                self._cache[cache_key] = disk_data
+            return disk_data
+
+        # Layer 3: API call
         response = self._session.get(
             f"{self.BASE_URL}{endpoint}", params=params, timeout=self._timeout
         )
@@ -37,6 +50,7 @@ class MLBClient:
 
         with self._lock:
             self._cache[cache_key] = data
+        self._disk_cache.set(cache_key, data)
         return data
 
     def get_teams(self):

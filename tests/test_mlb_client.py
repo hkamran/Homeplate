@@ -3,11 +3,12 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from app.clients.mlb_client import MLBClient
+from tests.conftest import NullDiskCache
 
 
 @pytest.fixture
 def client():
-    return MLBClient(cache_ttl=60)
+    return MLBClient(cache_ttl=60, disk_cache=NullDiskCache())
 
 
 def _mock_response(json_data, status_code=200):
