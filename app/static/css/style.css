@@ -11,10 +11,6 @@ html, body {
     margin: 0;
 }
 
-.font-mono {
-    font-family: 'Chivo Mono', monospace;
-}
-
 .container-main {
     width: 100%;
     max-width: 1500px;
@@ -276,14 +272,6 @@ h3 {
 .news-card .news-date {
     font-size: 11px;
     color: #5691ca;
-}
-
-.section-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #2a5a8c;
 }
 
 /* Player header */
