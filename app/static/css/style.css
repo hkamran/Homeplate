@@ -152,8 +152,8 @@ h3 {
 }
 
 .stat-card-inverse .stat-card-table tbody tr {
-    background-color: #1e4060;
-    border-bottom: 1px solid #2a5a8c;
+    background-color: #4c8ac7;
+    border-bottom: 1px solid #1e4060;
 }
 
 .stat-card-inverse .stat-card-table td {
@@ -223,6 +223,13 @@ h3 {
     width: 24px;
     height: 24px;
     border-radius: 50%;
+}
+
+/* Full-width section — breaks out of container to span browser width */
+.full-width-section {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding: 2rem calc(50vw - 50%);
 }
 
 /* News cards */
