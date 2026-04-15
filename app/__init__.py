@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 from flask import Flask, render_template
 
 from app.clients.mlb_client import MLBClient
@@ -27,8 +29,9 @@ def create_app(config_name="development"):
         return dict(
             mlb_teams=MLB_TEAMS,
             team_abbr_map=team_abbr_map,
-            team_logo_url=lambda tid: TEAM_LOGO_URL.format(team_id=tid),
-            player_headshot_url=lambda pid: PLAYER_HEADSHOT_URL.format(player_id=pid),
+            team_logo_url=lambda tid: f"/images/proxy?url={quote(TEAM_LOGO_URL.format(team_id=tid))}",
+            player_headshot_url=lambda pid: f"/images/proxy?url={quote(PLAYER_HEADSHOT_URL.format(player_id=pid))}",
+            cached_image_url=lambda url: f"/images/proxy?url={quote(url)}" if url else "",
         )
 
     @app.template_filter("ordinal")
@@ -37,12 +40,14 @@ def create_app(config_name="development"):
         suffix = {1: "st", 2: "nd", 3: "rd"}.get(n if n < 20 else n % 10, "th")
         return f"{n}{suffix}"
 
+    from app.routes.images import images_bp
     from app.routes.landing import landing_bp
     from app.routes.leaderboards import leaderboards_bp
     from app.routes.player import player_bp
     from app.routes.standings import standings_bp
     from app.routes.team import team_bp
 
+    app.register_blueprint(images_bp)
     app.register_blueprint(landing_bp)
     app.register_blueprint(standings_bp)
     app.register_blueprint(team_bp)

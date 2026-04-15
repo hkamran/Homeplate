@@ -140,7 +140,7 @@
             <div class="news-card">
                 <a href="{{ article.link }}" target="_blank">
                     {% if article.image_url %}
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                    <img src="{{ cached_image_url(article.image_url) }}" alt="{{ article.title }}">
                     {% else %}
                     <div style="height:160px;background:#2a5a8c;"></div>
                     {% endif %}
