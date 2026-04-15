@@ -163,20 +163,26 @@
     <div class="row g-3">
         {% for category in leaders %}
         <div class="col-md-3">
-            <div class="leader-card">
-                <div class="leader-category">{{ leader_display_names.get(category.leaderCategory, category.leaderCategory) }}</div>
+            <div class="stat-card stat-card-inverse">
+                <div class="stat-card-header">
+                    {{ leader_display_names.get(category.leaderCategory, category.leaderCategory) }}
+                </div>
                 {% if category.leaders %}
                 {% set leader = category.leaders[0] %}
-                <div class="leader-entry">
-                    <div class="leader-player">
-                        <img src="{{ team_logo_url(leader.team.id) }}" alt="{{ leader.team.name }}">
-                        <div>
-                            <a href="/player/{{ leader.person.id }}">{{ leader.person.fullName }}</a>
-                            <span class="team-abbr">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
-                        </div>
-                    </div>
-                    <span class="leader-value">{{ leader.value }}</span>
-                </div>
+                <table class="stat-card-table">
+                    <tbody>
+                        <tr>
+                            <td class="player-name" style="text-align:left;">
+                                <a href="/player/{{ leader.person.id }}">
+                                    <img src="{{ player_headshot_url(leader.person.id) }}" alt="{{ leader.person.fullName }}">
+                                    {{ leader.person.fullName }}
+                                    <span style="color:#999;font-size:11px;margin-left:4px;">{{ team_abbr_map.get(leader.team.id, leader.team.name) }}</span>
+                                </a>
+                            </td>
+                            <td style="text-align:right;font-weight:700;">{{ leader.value }}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 {% endif %}
             </div>
         </div>

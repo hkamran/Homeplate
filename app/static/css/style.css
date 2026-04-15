@@ -75,7 +75,12 @@ html, body {
 }
 
 /* Headings */
-h1, h2, h3 {
+h1, h2 {
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+h3 {
     font-weight: 700;
 }
 
@@ -98,7 +103,7 @@ h1, h2, h3 {
 }
 
 .stat-card-header {
-    background-color: #2a5a8c;
+    background-color: #4c8ac7;
     color: #ffffff;
     font-weight: 600;
     font-size: 13px;
@@ -112,7 +117,7 @@ h1, h2, h3 {
 }
 
 .stat-card-table thead th {
-    background-color: #2a5a8c;
+    background-color: #4c8ac7;
     color: #ffffff;
     padding: 6px 8px;
     text-align: center;
@@ -138,6 +143,29 @@ h1, h2, h3 {
     font-family: 'Chivo Mono', monospace;
     white-space: nowrap;
     font-size: 12px;
+}
+
+/* Inverse variant: white header, blue table body */
+.stat-card-inverse .stat-card-header {
+    background-color: #ffffff;
+    color: #333;
+}
+
+.stat-card-inverse .stat-card-table tbody tr {
+    background-color: #1e4060;
+    border-bottom: 1px solid #2a5a8c;
+}
+
+.stat-card-inverse .stat-card-table td {
+    color: #ffffff;
+}
+
+.stat-card-inverse .stat-card-table .player-name a {
+    color: #ffffff;
+}
+
+.stat-card-inverse .stat-card-table .player-name a:hover {
+    color: #a0c4e8;
 }
 
 .stat-card-table tbody tr.projected-row {
@@ -241,62 +269,6 @@ h1, h2, h3 {
 .news-card .news-date {
     font-size: 11px;
     color: #5691ca;
-}
-
-/* Leader cards */
-.leader-card {
-    background-color: #1e4060;
-    border-radius: 0;
-    border-top: 2px solid #ffffff;
-    padding: 10px 16px;
-    height: 100%;
-}
-
-.leader-card .leader-category {
-    font-weight: 600;
-    font-size: 13px;
-    color: #8fabc4;
-    margin-bottom: 8px;
-}
-
-.leader-card .leader-entry {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.leader-card .leader-player {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.leader-card .leader-player img {
-    width: 20px;
-    height: 20px;
-}
-
-.leader-card .leader-player a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 13px;
-}
-
-.leader-card .leader-player a:hover {
-    color: #a0c4e8;
-}
-
-.leader-card .leader-player .team-abbr {
-    color: #8fabc4;
-    font-size: 12px;
-}
-
-.leader-card .leader-value {
-    font-family: 'Chivo Mono', monospace;
-    font-weight: 700;
-    font-size: 14px;
-    color: #ffffff;
 }
 
 .section-title {
